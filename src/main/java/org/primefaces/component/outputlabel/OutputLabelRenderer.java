@@ -134,13 +134,7 @@ public class OutputLabelRenderer extends CoreRenderer {
                 CompositeUtils.invokeOnDeepestEditableValueHolder(context, forComponent, callback);
             }
             else {
-                label.pushComponentToEL(context, UIComponent.getCompositeComponentParent(forComponent));
-                try {
-                    callback.invokeContextCallback(context, forComponent);
-                }
-                finally {
-                    label.popComponentFromEL(context);
-                }
+                ComponentUtils.invokeOnComponentWithFixedComponentStack(context, forComponent, callback);
             }
         }
 

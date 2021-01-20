@@ -528,6 +528,16 @@ public class ComponentUtils {
         return false;
     }
 
+    public static void invokeOnComponentWithFixedComponentStack(FacesContext context, UIComponent component, ContextCallback contextCallback) {
+        UIComponent parentCompositeComponent = UIComponent.getCompositeComponentParent(component);
+        if (parentCompositeComponent != null) {
+            parentCompositeComponent.invokeOnComponent(context, component.getClientId(context), contextCallback);
+        }
+        else {
+            component.invokeOnComponent(context, component.getClientId(context), contextCallback);
+        }
+    }
+
     public static ViewPoolingResetMode isViewPooling(FacesContext context) {
         if (context.getViewRoot() != null) {
             Object mode = context.getViewRoot().getAttributes().get("oam.view.resetSaveStateMode");
